@@ -1,0 +1,160 @@
+(****** QuickLD compiler *******************************)
+(****** Copyright Rockwell Automation Canada, Ltd ******)
+(****** ST *********************************************)
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,1
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB2 := TRUE ;
+IF __EDTB2 THEN
+(* Operator output on : = with __EDTB1 *)
+__EDTB1 := (SELEC = TRUE) ;
+ELSE
+__EDTB1 := FALSE ;
+END_IF ;
+__MO_EQUAL_1 := __EDTB1 ;
+SELEC_FIN := __EDTB1 ;
+
+(*************** Code for the end of Rung **************)
+__GL __LG0001 ;
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,5
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB3 := TRUE ;
+IF __EDTB3 THEN
+A_D := ANY_TO_DINT(A) ;
+END_IF ;
+__MO_ANY_TO_DINT_1 := __EDTB3 ;
+__EDTB4 := __EDTB3 ;
+IF __EDTB4 THEN
+B_D := ANY_TO_DINT(B) ;
+END_IF ;
+__MO_ANY_TO_DINT_2 := __EDTB4 ;
+
+(*************** Code for the end of Rung **************)
+__GL __LG0002 ;
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,8
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB5 := NOT(SELEC_FIN) ;
+IF __EDTB5 THEN
+SELEC_0_N := NOT_MASK(SELEC_0) ;
+END_IF ;
+__MO_NOT_MASK_1 := __EDTB5 ;
+__EDTB6 := __EDTB5 ;
+IF __EDTB6 THEN
+AND_A := AND_MASK(SELEC_0_N, A_D) ;
+END_IF ;
+__MO_AND_MASK_1 := __EDTB6 ;
+
+(*************** Code for the end of Rung **************)
+__GL __LG0003 ;
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,12
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB7 := NOT(SELEC_FIN) ;
+IF __EDTB7 THEN
+AND_B := AND_MASK(SELEC_0, B_D) ;
+END_IF ;
+__MO_AND_MASK_2 := __EDTB7 ;
+__EDTB8 := __EDTB7 ;
+IF __EDTB8 THEN
+OR_AB := OR_MASK(AND_A, AND_B) ;
+END_IF ;
+__MO_OR_MASK_1 := __EDTB8 ;
+__EDTB9 := __EDTB8 ;
+IF __EDTB9 THEN
+MUX2A1 := ANY_TO_REAL(OR_AB) ;
+END_IF ;
+__MO_ANY_TO_REAL_1 := __EDTB9 ;
+
+(*************** Code for the end of Rung **************)
+__GL __LG0004 ;
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,16
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB10 := SELEC_FIN ;
+IF __EDTB10 THEN
+SELEC_1_N := NOT_MASK(SELEC_1) ;
+END_IF ;
+__MO_NOT_MASK_2 := __EDTB10 ;
+__EDTB11 := __EDTB10 ;
+IF __EDTB11 THEN
+AND_A := AND_MASK(SELEC_1_N, A_D) ;
+END_IF ;
+__MO_AND_MASK_3 := __EDTB11 ;
+
+(*************** Code for the end of Rung **************)
+__GL __LG0005 ;
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,20
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB12 := SELEC_FIN ;
+IF __EDTB12 THEN
+AND_B := AND_MASK(SELEC_1, B_D) ;
+END_IF ;
+__MO_AND_MASK_4 := __EDTB12 ;
+__EDTB13 := __EDTB12 ;
+IF __EDTB13 THEN
+OR_AB := OR_MASK(AND_A, AND_B) ;
+END_IF ;
+__MO_OR_MASK_2 := __EDTB13 ;
+__EDTB14 := __EDTB13 ;
+IF __EDTB14 THEN
+MUX2A1 := ANY_TO_REAL(OR_AB) ;
+END_IF ;
+__MO_ANY_TO_REAL_2 := __EDTB14 ;
+
+(*************** Code for the end of Rung **************)
+__GL __LG0006 ;
+
+
+(*************** Code for the end of File **************)
+__GL __LG0000 ;
+
+
+
+(*************** Local Symbols table *******************)
+(* __EDTB1 *)
+(* __EDTB2 *)
+(* __EDTB3 *)
+(* __EDTB4 *)
+(* __EDTB5 *)
+(* __EDTB6 *)
+(* __EDTB7 *)
+(* __EDTB8 *)
+(* __EDTB9 *)
+(* __EDTB10 *)
+(* __EDTB11 *)
+(* __EDTB12 *)
+(* __EDTB13 *)
+(* __EDTB14 *)
+

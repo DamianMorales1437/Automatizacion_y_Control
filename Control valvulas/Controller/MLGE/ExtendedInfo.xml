@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ProjectElements>
+  <AcfElementGuid Guid="0bffd037-eef0-4514-951b-4c72eb8983f9">
+    <File>Prog1.AcfMlge</File>
+  </AcfElementGuid>
+  <AcfElementGuid Guid="390d195f-9d86-49eb-b83f-12f7f688aeca">
+    <File>Mux2a1.AcfMlge</File>
+  </AcfElementGuid>
+  <AcfElementGuid Guid="e5260841-482e-4bde-b8c0-9e65d717da6a">
+    <File>Sensor_Sim.AcfMlge</File>
+  </AcfElementGuid>
+</ProjectElements>

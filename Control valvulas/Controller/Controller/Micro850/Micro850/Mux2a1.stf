@@ -1,0 +1,45 @@
+FUNCTION Mux2a1
+#info= QLD
+BOF
+
+
+(**)
+
+SOR  [0,1] (**) (**)  FB  [1,0] (*=*) (*9*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*Selec*) (**)  , (*i2:*)(*TRUE*) (**) ; (*o1:*)(**) (**) )  OTE  [4,0] (*Selec_fin*) (**)
+EOR [5,0]
+
+
+(**)
+
+SOR  [0,5] (**) (**)  FB  [1,0] (*ANY_TO_DINT*) (*1*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*A*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*A_d*) (**) )  FB  [4,0] (*ANY_TO_DINT*) (*2*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*B*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*B_d*) (**) )
+EOR [7,0]
+
+
+(**)
+
+SOR  [0,8] (**) (**)  XIO  [1,0] (*Selec_fin*) (**)  FB  [2,0] (*NOT_MASK*) (*4*) ( (*EN:EN*)(**) (**)  , (*IN:IN*)(*Selec_0*) (**) ; (*ENO:ENO*)(**) (**)  , (*NOT_MASK:Q*)(*Selec_0_n*) (**) )  FB  [5,0] (*AND_MASK*) (*5*) ( (*EN:EN*)(**) (**)  , (*IN:IN*)(*Selec_0_n*) (**)  , (*MSK:MSK*)(*A_d*) (**) ; (*ENO:ENO*)(**) (**)  , (*AND_MASK:Q*)(*And_A*) (**) )
+EOR [8,0]
+
+
+(**)
+
+SOR  [0,12] (**) (**)  XIO  [1,0] (*Selec_fin*) (**)  FB  [2,0] (*AND_MASK*) (*6*) ( (*EN:EN*)(**) (**)  , (*IN:IN*)(*Selec_0*) (**)  , (*MSK:MSK*)(*B_d*) (**) ; (*ENO:ENO*)(**) (**)  , (*AND_MASK:Q*)(*And_B*) (**) )  FB  [5,0] (*OR_MASK*) (*7*) ( (*EN:EN*)(**) (**)  , (*IN:IN*)(*And_A*) (**)  , (*MSK:MSK*)(*And_B*) (**) ; (*ENO:ENO*)(**) (**)  , (*OR_MASK:Q*)(*Or_AB*) (**) )  FB  [8,0] (*ANY_TO_REAL*) (*8*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*Or_AB*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*Mux2a1*) (**) )
+EOR [11,0]
+
+
+(**)
+
+SOR  [0,16] (**) (**)  XIC  [1,0] (*Selec_fin*) (**)  FB  [2,0] (*NOT_MASK*) (*4*) ( (*EN:EN*)(**) (**)  , (*IN:IN*)(*Selec_1*) (**) ; (*ENO:ENO*)(**) (**)  , (*NOT_MASK:Q*)(*Selec_1_n*) (**) )  FB  [5,0] (*AND_MASK*) (*5*) ( (*EN:EN*)(**) (**)  , (*IN:IN*)(*Selec_1_n*) (**)  , (*MSK:MSK*)(*A_d*) (**) ; (*ENO:ENO*)(**) (**)  , (*AND_MASK:Q*)(*And_A*) (**) )
+EOR [8,0]
+
+
+(**)
+
+SOR  [0,20] (**) (**)  XIC  [1,0] (*Selec_fin*) (**)  FB  [2,0] (*AND_MASK*) (*6*) ( (*EN:EN*)(**) (**)  , (*IN:IN*)(*Selec_1*) (**)  , (*MSK:MSK*)(*B_d*) (**) ; (*ENO:ENO*)(**) (**)  , (*AND_MASK:Q*)(*And_B*) (**) )  FB  [5,0] (*OR_MASK*) (*7*) ( (*EN:EN*)(**) (**)  , (*IN:IN*)(*And_A*) (**)  , (*MSK:MSK*)(*And_B*) (**) ; (*ENO:ENO*)(**) (**)  , (*OR_MASK:Q*)(*Or_AB*) (**) )  FB  [8,0] (*ANY_TO_REAL*) (*8*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*Or_AB*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*Mux2a1*) (**) )
+EOR [11,0]
+EOF
+#end_info
+#info= ID_MAX
+NextId=14
+#end_info
+END_FUNCTION

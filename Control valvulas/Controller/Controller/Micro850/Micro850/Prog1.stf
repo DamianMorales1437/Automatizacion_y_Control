@@ -1,0 +1,191 @@
+PROGRAM Prog1
+#info= QLD
+BOF
+
+
+(**)
+
+SOR  [0,1] (**) (**)  FB  [1,0] (*ANY_TO_REAL*) (*1*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*_IO_P1_AI_00*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*GWR*) (**) )  FB  [4,0] (*SCALER*) (*SCALER_1*) ( (*EN:EN*)(**) (**)  , (*Input:*)(*GWR*) (**)  , (*InputMin:*)(*4000.0*) (**)  , (*InputMax:*)(*20000.0*) (**)  , (*OutputMin:*)(*4.0*) (**)  , (*OutputMax:*)(*20.0*) (**) ; (*ENO:ENO*)(**) (**)  , (*Output:*)(*GWR_PLC*) (**) )
+EOR [7,0]
+
+
+(**)
+
+SOR  [0,8] (**) (**)  FB  [1,0] (*ANY_TO_REAL*) (*2*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*_IO_P1_AI_01*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*Flotador*) (**) )  FB  [4,0] (*SCALER*) (*SCALER_2*) ( (*EN:EN*)(**) (**)  , (*Input:*)(*Flotador*) (**)  , (*InputMin:*)(*4000.0*) (**)  , (*InputMax:*)(*20000.0*) (**)  , (*OutputMin:*)(*4.0*) (**)  , (*OutputMax:*)(*20.0*) (**) ; (*ENO:ENO*)(**) (**)  , (*Output:*)(*Flotador_PLC*) (**) )
+EOR [7,0]
+
+
+(**)
+
+SOR  [0,15] (**) (**)  FB  [1,0] (*ANY_TO_REAL*) (*7*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*_IO_P1_AI_02*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*Gas*) (**) )  FB  [4,0] (*SCALER*) (*SCALER_3*) ( (*EN:EN*)(**) (**)  , (*Input:*)(*Gas*) (**)  , (*InputMin:*)(*4000.0*) (**)  , (*InputMax:*)(*20000.0*) (**)  , (*OutputMin:*)(*15.0*) (**)  , (*OutputMax:*)(*200.0*) (**) ; (*ENO:ENO*)(**) (**)  , (*Output:*)(*Gas_PLC*) (**) )
+EOR [7,0]
+
+
+(**)
+
+SOR  [0,22] (**) (**)  XIC  [1,0] (*_IO_EM_DI_00*) (**)  OTE  [2,0] (*Selec_Sensor*) (**)
+EOR [3,0]
+
+
+(**)
+
+SOR  [0,24] (**) (**)  XIO  [1,0] (*Selec_Set_Sensor*) (**)  FB  [2,0] (*Mux2a1*) (*11*) ( (*EN:EN*)(**) (**)  , (*A:*)(*GWR_PLC*) (**)  , (*B:*)(*Flotador_PLC*) (**)  , (*Selec:*)(*Selec_Sensor*) (**) ; (*ENO:ENO*)(**) (**)  , (*Mux2a1:*)(*Sensor_PLC*) (**) )
+EOR [5,0]
+
+
+(**)
+
+SOR  [0,29] (**) (**)  XIC  [1,0] (*_IO_EM_DI_01*) (**)  
+ BST  FB  [2,0] (*<*) (*6*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*GWR_PLC*) (**)  , (*i2:*)(*Set_Sensor*) (**) ; (*o1:*)(**) (**) )
+   NXB  FB  [2,3] (*<*) (*6*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*Flotador_PLC*) (**)  , (*i2:*)(*Set_Sensor*) (**) ; (*o1:*)(**) (**) )
+ BND
+  OTE  [5,0] (*Selec_Set_Sensor*) (**)
+EOR [6,0]
+
+
+(**)
+
+SOR  [0,36] (**) (**)  XIC  [1,0] (*Selec_Set_Sensor*) (**)  FB  [2,0] (*Mux2a1*) (*12*) ( (*EN:EN*)(**) (**)  , (*A:*)(*GWR_PLC*) (**)  , (*B:*)(*Flotador_PLC*) (**)  , (*Selec:*)(*Selec_Set_Sensor*) (**) ; (*ENO:ENO*)(**) (**)  , (*Mux2a1:*)(*Sensor_PLC*) (**) )
+EOR [5,0]
+
+
+(**)
+
+SOR  [0,41] (**) (**)  
+ BST  
+ BST  XIC  [1,0] (*TON_2.Q*) (*Q*)
+   NXB  XIC  [1,1] (*_IO_EM_DI_02*) (**)
+ BND
+
+   NXB  XIC  [1,2] (*_IO_EM_DO_00*) (**)
+ BND
+  XIO  [2,0] (*TON_1.Q*) (*Q*)  OTE  [3,0] (*_IO_EM_DO_00*) (**)
+EOR [4,0]
+
+
+(**)
+
+SOR  [0,45] (**) (**)  XIC  [1,0] (*_IO_EM_DO_00*) (**)  FB  [2,0] (*TON*) (*TON_1*) ( (*IN:IN*)(**) (**)  , (*PT:PT*)(*t#15s*) (**) ; (*Q:Q*)(**) (**)  , (*ET:ET*)(**) (**) )
+EOR [5,0]
+
+
+(**)
+
+SOR  [0,48] (**) (**)  
+ BST  
+ BST  XIC  [1,0] (*TON_1.Q*) (*Q*)
+   NXB  XIC  [1,1] (*_IO_EM_DI_03*) (**)
+ BND
+
+   NXB  XIC  [1,2] (*_IO_EM_DO_01*) (**)
+ BND
+  XIO  [2,0] (*TON_2.Q*) (*Q*)  OTE  [3,0] (*_IO_EM_DO_01*) (**)
+EOR [4,0]
+
+
+(**)
+
+SOR  [0,52] (**) (**)  XIC  [1,0] (*_IO_EM_DO_01*) (**)  FB  [2,0] (*TON*) (*TON_2*) ( (*IN:IN*)(**) (**)  , (*PT:PT*)(*t#15s*) (**) ; (*Q:Q*)(**) (**)  , (*ET:ET*)(**) (**) )
+EOR [5,0]
+
+
+(**)
+
+SOR  [0,55] (**) (**)  XIC  [1,0] (*TON_1.Q*) (*Q*)  FB  [2,0] (*CTU*) (*CTU_1*) ( (*CU:CU*)(**) (**)  , (*RESET:RESE*)(*CTU_1.Q*) (**)  , (*PV:PV*)(*180*) (**) ; (*Q:Q*)(**) (**)  , (*CV:CV*)(**) (**) )
+EOR [5,0]
+
+
+(**)
+
+SOR  [0,59] (**) (**)  XIC  [1,0] (*TON_2.Q*) (*Q*)  FB  [2,0] (*CTU*) (*CTU_2*) ( (*CU:CU*)(**) (**)  , (*RESET:RESE*)(*CTU_2.Q*) (**)  , (*PV:PV*)(*180*) (**) ; (*Q:Q*)(**) (**)  , (*CV:CV*)(**) (**) )
+EOR [5,0]
+
+
+(**)
+
+SOR  [0,63] (**) (**)  XIO  [1,0] (*_IO_EM_DI_04*) (**)  FB  [2,0] (*Sensor_Sim*) (*28*) ( (*EN:EN*)(**) (**)  , (*Val_Sensor:*)(*Sensor_PLC*) (**)  , (*Val_process:*)(*Agua_Valvula_1_Process*) (**)  , (*Tasa_de_aumento:*)(*0.016*) (**) ; (*ENO:ENO*)(**) (**)  , (*Sensor_Sim:*)(*Agua_1_Sim*) (**) )
+EOR [5,0]
+
+
+(**)
+
+SOR  [0,68] (**) (**)  XIC  [1,0] (*_IO_EM_DI_04*) (**)  FB  [2,0] (*Sensor_Sim*) (*28*) ( (*EN:EN*)(**) (**)  , (*Val_Sensor:*)(*Agua_1_Sim*) (**)  , (*Val_process:*)(*Agua_Valvula_1_Process*) (**)  , (*Tasa_de_aumento:*)(*0.016*) (**) ; (*ENO:ENO*)(**) (**)  , (*Sensor_Sim:*)(*Agua_1_Sim*) (**) )
+EOR [5,0]
+
+
+(**)
+
+SOR  [0,73] (**) (**)  XIC  [1,0] (*_IO_EM_DO_00*) (**)  FB  [2,0] (*IPIDCONTROLLER*) (*IPIDCONTROLLER_1*) ( (*EN:EN*)(**) (**)  , (*Process:*)(*Agua_1_Sim*) (**)  , (*SetPoint:*)(*10.0*) (**)  , (*FeedBack:*)(*Agua_Valvula_1_Process*) (**)  , (*Auto:*)(*AUTO1*) (**)  , (*Initialize:*)(*INI1*) (**)  , (*Gains:*)(*GAIN1*) (**)  , (*AutoTune:*)(*TUNE1*) (**)  , (*ATParameters:*)(*AT1*) (**)  , (*ErrorMode:*)(*0*) (**) ; (*ENO:ENO*)(**) (**)  , (*Output:*)(*Agua_PID_1*) (**)  , (*AbsoluteError:*)(**) (**)  , (*ATWarning:*)(**) (**)  , (*OutGains:*)(**) (**) )  FB  [5,0] (*ANY_TO_DINT*) (*19*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*Agua_PID_1*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*Agua_PID_Dint_1*) (**) )  FB  [8,0] (*LIMIT*) (*20*) ( (*EN:EN*)(**) (**)  , (*MIN:MIN*)(*0*) (**)  , (*IN:IN*)(*Agua_PID_Dint_1*) (**)  , (*MAX:MAX*)(*100*) (**) ; (*ENO:ENO*)(**) (**)  , (*LIMIT:Q*)(*Limit_Valvula_Agua_1*) (**) )  FB  [11,0] (*ANY_TO_REAL*) (*21*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*Limit_Valvula_Agua_1*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*Agua_Valvula_1_Process*) (**) )
+EOR [14,0]
+
+
+(**)
+
+SOR  [0,84] (**) (**)  XIC  [1,0] (*_IO_EM_DO_00*) (**)  FB  [2,0] (*ANY_TO_UINT*) (*22*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*Limit_Valvula_Agua_1*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*_IO_P2_AO_00*) (**) )
+EOR [5,0]
+
+
+(**)
+
+SOR  [0,87] (**) (**)  XIO  [1,0] (*_IO_EM_DO_00*) (**)  FB  [2,0] (*ANY_TO_UINT*) (*23*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*0.0*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*_IO_P2_AO_00*) (**) )
+EOR [5,0]
+
+
+(**)
+
+SOR  [0,90] (**) (**)  XIO  [1,0] (*_IO_EM_DI_05*) (**)  FB  [2,0] (*Sensor_Sim*) (*28*) ( (*EN:EN*)(**) (**)  , (*Val_Sensor:*)(*Sensor_PLC*) (**)  , (*Val_process:*)(*Gas_Process*) (**)  , (*Tasa_de_aumento:*)(*0.016*) (**) ; (*ENO:ENO*)(**) (**)  , (*Sensor_Sim:*)(*Agua_2_Sim*) (**) )
+EOR [5,0]
+
+
+(**)
+
+SOR  [0,95] (**) (**)  XIC  [1,0] (*_IO_EM_DI_05*) (**)  FB  [2,0] (*Sensor_Sim*) (*28*) ( (*EN:EN*)(**) (**)  , (*Val_Sensor:*)(*Agua_2_Sim*) (**)  , (*Val_process:*)(*Agua_Valvula_2_Process*) (**)  , (*Tasa_de_aumento:*)(*0.016*) (**) ; (*ENO:ENO*)(**) (**)  , (*Sensor_Sim:*)(*Agua_2_Sim*) (**) )
+EOR [5,0]
+
+
+(**)
+
+SOR  [0,100] (**) (**)  XIC  [1,0] (*_IO_EM_DO_01*) (**)  FB  [2,0] (*IPIDCONTROLLER*) (*IPIDCONTROLLER_3*) ( (*EN:EN*)(**) (**)  , (*Process:*)(*Agua_2_Sim*) (**)  , (*SetPoint:*)(*10.0*) (**)  , (*FeedBack:*)(*Agua_Valvula_2_Process*) (**)  , (*Auto:*)(*AUTO2*) (**)  , (*Initialize:*)(*INI2*) (**)  , (*Gains:*)(*GAIN2*) (**)  , (*AutoTune:*)(*TUNE2*) (**)  , (*ATParameters:*)(*AT2*) (**)  , (*ErrorMode:*)(*0*) (**) ; (*ENO:ENO*)(**) (**)  , (*Output:*)(*Agua_PID_2*) (**)  , (*AbsoluteError:*)(**) (**)  , (*ATWarning:*)(**) (**)  , (*OutGains:*)(**) (**) )  FB  [5,0] (*ANY_TO_DINT*) (*19*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*Agua_PID_2*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*Agua_PID_Dint_2*) (**) )  FB  [8,0] (*LIMIT*) (*20*) ( (*EN:EN*)(**) (**)  , (*MIN:MIN*)(*0*) (**)  , (*IN:IN*)(*Agua_PID_Dint_2*) (**)  , (*MAX:MAX*)(*100*) (**) ; (*ENO:ENO*)(**) (**)  , (*LIMIT:Q*)(*Limit_Valvula_Agua_2*) (**) )  FB  [11,0] (*ANY_TO_REAL*) (*21*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*Limit_Valvula_Agua_2*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*Agua_Valvula_2_Process*) (**) )
+EOR [14,0]
+
+
+(**)
+
+SOR  [0,111] (**) (**)  XIC  [1,0] (*_IO_EM_DO_01*) (**)  FB  [2,0] (*ANY_TO_UINT*) (*14*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*Limit_Valvula_Agua_2*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*_IO_P2_AO_01*) (**) )
+EOR [5,0]
+
+
+(**)
+
+SOR  [0,114] (**) (**)  XIO  [1,0] (*_IO_EM_DO_01*) (**)  FB  [2,0] (*ANY_TO_UINT*) (*24*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*0.0*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*_IO_P2_AO_01*) (**) )
+EOR [5,0]
+
+
+(**)
+
+SOR  [0,117] (**) (**)  XIO  [1,0] (*_IO_EM_DI_06*) (**)  FB  [2,0] (*Sensor_Sim*) (*28*) ( (*EN:EN*)(**) (**)  , (*Val_Sensor:*)(*Gas_PLC*) (**)  , (*Val_process:*)(*Gas_Process*) (**)  , (*Tasa_de_aumento:*)(*0.0185*) (**) ; (*ENO:ENO*)(**) (**)  , (*Sensor_Sim:*)(*Gas_Sim*) (**) )
+EOR [5,0]
+
+
+(**)
+
+SOR  [0,122] (**) (**)  XIC  [1,0] (*_IO_EM_DI_06*) (**)  FB  [2,0] (*Sensor_Sim*) (*28*) ( (*EN:EN*)(**) (**)  , (*Val_Sensor:*)(*Gas_Sim*) (**)  , (*Val_process:*)(*Gas_Process*) (**)  , (*Tasa_de_aumento:*)(*0.0185*) (**) ; (*ENO:ENO*)(**) (**)  , (*Sensor_Sim:*)(*Gas_Sim*) (**) )
+EOR [5,0]
+
+
+(**)
+
+SOR  [0,127] (**) (**)  FB  [1,0] (*IPIDCONTROLLER*) (*IPIDCONTROLLER_2*) ( (*EN:EN*)(**) (**)  , (*Process:*)(*Gas_Sim*) (**)  , (*SetPoint:*)(*120.0*) (**)  , (*FeedBack:*)(*Gas_Process*) (**)  , (*Auto:*)(*AUTO3*) (**)  , (*Initialize:*)(*INI3*) (**)  , (*Gains:*)(*GAIN2*) (**)  , (*AutoTune:*)(*TUNE3*) (**)  , (*ATParameters:*)(*AT3*) (**)  , (*ErrorMode:*)(*0*) (**) ; (*ENO:ENO*)(**) (**)  , (*Output:*)(*Gas_PID*) (**)  , (*AbsoluteError:*)(**) (**)  , (*ATWarning:*)(**) (**)  , (*OutGains:*)(**) (**) )  FB  [4,0] (*ANY_TO_DINT*) (*16*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*Gas_PID*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*Gas_PID_Dint*) (**) )  FB  [7,0] (*LIMIT*) (*17*) ( (*EN:EN*)(**) (**)  , (*MIN:MIN*)(*0*) (**)  , (*IN:IN*)(*Gas_PID_Dint*) (**)  , (*MAX:MAX*)(*100*) (**) ; (*ENO:ENO*)(**) (**)  , (*LIMIT:Q*)(*Limit_Gas*) (**) )  FB  [10,0] (*ANY_TO_REAL*) (*18*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*Limit_Gas*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*Gas_Process*) (**) )
+EOR [13,0]
+
+
+(**)
+
+SOR  [0,138] (**) (**)  FB  [1,0] (*ANY_TO_UINT*) (*15*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*Limit_Gas*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*_IO_P3_AO_00*) (**) )
+EOR [4,0]
+EOF
+#end_info
+#info= ID_MAX
+NextId=28
+#end_info
+END_PROGRAM

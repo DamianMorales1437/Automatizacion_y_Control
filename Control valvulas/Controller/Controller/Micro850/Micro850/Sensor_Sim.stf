@@ -1,0 +1,27 @@
+FUNCTION Sensor_Sim
+#info= QLD
+BOF
+
+
+(**)
+
+SOR  [0,1] (**) (**)  FB  [1,0] (*=*) (*4*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*Val_process*) (**)  , (*i2:*)(*0.0*) (**) ; (*o1:*)(**) (**) )  OTE  [4,0] (*Selec*) (**)
+EOR [5,0]
+
+
+(**)
+
+SOR  [0,5] (**) (**)  XIO  [1,0] (*Selec*) (**)  FB  [2,0] (***) (*2*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*Val_process*) (**)  , (*i2:*)(*Tasa_de_aumento*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*Aumento*) (**) )  FB  [5,0] (*+*) (*8*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*Aumento*) (**)  , (*i2:*)(*Val_Sensor*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*Sensor_Sim*) (**) )
+EOR [8,0]
+
+
+(**)
+
+SOR  [0,9] (**) (**)  XIC  [1,0] (*Selec*) (**)  FB  [2,0] (*-*) (*9*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*Val_Sensor*) (**)  , (*i2:*)(*Tasa_de_aumento*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*Sensor_Sim*) (**) )
+EOR [5,0]
+EOF
+#end_info
+#info= ID_MAX
+NextId=9
+#end_info
+END_FUNCTION

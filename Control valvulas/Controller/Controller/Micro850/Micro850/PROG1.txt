@@ -1,0 +1,560 @@
+(****** QuickLD compiler *******************************)
+(****** Copyright Rockwell Automation Canada, Ltd ******)
+(****** ST *********************************************)
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,1
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB1 := TRUE ;
+IF __EDTB1 THEN
+GWR := ANY_TO_REAL(_IO_P1_AI_00) ;
+END_IF ;
+__MO_ANY_TO_REAL_1 := __EDTB1 ;
+__EDTB2 := __EDTB1 ;
+IF __EDTB2 THEN
+(* FB call: SCALER *)
+SCALER_1(GWR, 4000.0, 20000.0, 4.0, 20.0) ;
+GWR_PLC := SCALER_1.Output ;
+END_IF ;
+__MO_SCALER_1 := __EDTB2 ;
+
+(*************** Code for the end of Rung **************)
+__GL __LG0001 ;
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,8
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB3 := TRUE ;
+IF __EDTB3 THEN
+FLOTADOR := ANY_TO_REAL(_IO_P1_AI_01) ;
+END_IF ;
+__MO_ANY_TO_REAL_2 := __EDTB3 ;
+__EDTB4 := __EDTB3 ;
+IF __EDTB4 THEN
+(* FB call: SCALER *)
+SCALER_2(FLOTADOR, 4000.0, 20000.0, 4.0, 20.0) ;
+FLOTADOR_PLC := SCALER_2.Output ;
+END_IF ;
+__MO_SCALER_2 := __EDTB4 ;
+
+(*************** Code for the end of Rung **************)
+__GL __LG0002 ;
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,15
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB5 := TRUE ;
+IF __EDTB5 THEN
+GAS := ANY_TO_REAL(_IO_P1_AI_02) ;
+END_IF ;
+__MO_ANY_TO_REAL_3 := __EDTB5 ;
+__EDTB6 := __EDTB5 ;
+IF __EDTB6 THEN
+(* FB call: SCALER *)
+SCALER_3(GAS, 4000.0, 20000.0, 15.0, 200.0) ;
+GAS_PLC := SCALER_3.Output ;
+END_IF ;
+__MO_SCALER_3 := __EDTB6 ;
+
+(*************** Code for the end of Rung **************)
+__GL __LG0003 ;
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,22
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+SELEC_SENSOR := _IO_EM_DI_00 ;
+
+(*************** Code for the end of Rung **************)
+__GL __LG0004 ;
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,24
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB7 := NOT(SELEC_SET_SENSOR) ;
+IF __EDTB7 THEN
+SENSOR_PLC := Mux2a1(GWR_PLC, FLOTADOR_PLC, SELEC_SENSOR) ;
+END_IF ;
+__MO_MUX2A1_1 := __EDTB7 ;
+
+(*************** Code for the end of Rung **************)
+__GL __LG0005 ;
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,29
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB8 := _IO_EM_DI_01 ;
+__EDTB10 := __EDTB8 ;
+IF __EDTB10 THEN
+(* Operator output on : < with __EDTB9 *)
+__EDTB9 := (GWR_PLC < SET_SENSOR) ;
+ELSE
+__EDTB9 := FALSE ;
+END_IF ;
+__MO_LESS_1 := __EDTB9 ;
+__EDTB11 := __EDTB9 ;
+__EDTB13 := __EDTB8 ;
+IF __EDTB13 THEN
+(* Operator output on : < with __EDTB12 *)
+__EDTB12 := (FLOTADOR_PLC < SET_SENSOR) ;
+ELSE
+__EDTB12 := FALSE ;
+END_IF ;
+__MO_LESS_2 := __EDTB12 ;
+__EDTB14 := __EDTB12 ;
+SELEC_SET_SENSOR := (__EDTB11 OR __EDTB14) ;
+
+(*************** Code for the end of Rung **************)
+__GL __LG0006 ;
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,36
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB15 := SELEC_SET_SENSOR ;
+IF __EDTB15 THEN
+SENSOR_PLC := Mux2a1(GWR_PLC, FLOTADOR_PLC, SELEC_SET_SENSOR) ;
+END_IF ;
+__MO_MUX2A1_2 := __EDTB15 ;
+
+(*************** Code for the end of Rung **************)
+__GL __LG0007 ;
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,41
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB16 := TON_2.Q ;
+__EDTB17 := _IO_EM_DI_02 ;
+__EDTB18 := (__EDTB16 OR __EDTB17) ;
+__EDTB19 := _IO_EM_DO_00 ;
+_IO_EM_DO_00 := (__EDTB18 OR __EDTB19) AND NOT(TON_1.Q) ;
+
+(*************** Code for the end of Rung **************)
+__GL __LG0008 ;
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,45
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+(* FB call: TON *)
+TON_1(_IO_EM_DO_00, T#15S) ;
+
+(*************** Code for the end of Rung **************)
+__GL __LG0009 ;
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,48
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB20 := TON_1.Q ;
+__EDTB21 := _IO_EM_DI_03 ;
+__EDTB22 := (__EDTB20 OR __EDTB21) ;
+__EDTB23 := _IO_EM_DO_01 ;
+_IO_EM_DO_01 := (__EDTB22 OR __EDTB23) AND NOT(TON_2.Q) ;
+
+(*************** Code for the end of Rung **************)
+__GL __LG000A ;
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,52
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+(* FB call: TON *)
+TON_2(_IO_EM_DO_01, T#15S) ;
+
+(*************** Code for the end of Rung **************)
+__GL __LG000B ;
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,55
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+(* FB call: CTU *)
+CTU_1(TON_1.Q, CTU_1.Q, 180) ;
+
+(*************** Code for the end of Rung **************)
+__GL __LG000C ;
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,59
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+(* FB call: CTU *)
+CTU_2(TON_2.Q, CTU_2.Q, 180) ;
+
+(*************** Code for the end of Rung **************)
+__GL __LG000D ;
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,63
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB24 := NOT(_IO_EM_DI_04) ;
+IF __EDTB24 THEN
+AGUA_1_SIM := Sensor_Sim(SENSOR_PLC, AGUA_VALVULA_1_PROCESS, 0.016) ;
+END_IF ;
+__MO_SENSOR_SIM_1 := __EDTB24 ;
+
+(*************** Code for the end of Rung **************)
+__GL __LG000E ;
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,68
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB25 := _IO_EM_DI_04 ;
+IF __EDTB25 THEN
+AGUA_1_SIM := Sensor_Sim(AGUA_1_SIM, AGUA_VALVULA_1_PROCESS, 0.016) ;
+END_IF ;
+__MO_SENSOR_SIM_2 := __EDTB25 ;
+
+(*************** Code for the end of Rung **************)
+__GL __LG000F ;
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,73
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB26 := _IO_EM_DO_00 ;
+IF __EDTB26 THEN
+(* FB call: IPIDCONTROLLER *)
+IPIDCONTROLLER_1(AGUA_1_SIM, 10.0, AGUA_VALVULA_1_PROCESS, AUTO1, INI1, GAIN1, TUNE1, AT1, 0) ;
+AGUA_PID_1 := IPIDCONTROLLER_1.Output ;
+END_IF ;
+__MO_IPIDCONTROLLER_1 := __EDTB26 ;
+__EDTB27 := __EDTB26 ;
+IF __EDTB27 THEN
+AGUA_PID_DINT_1 := ANY_TO_DINT(AGUA_PID_1) ;
+END_IF ;
+__MO_ANY_TO_DINT_1 := __EDTB27 ;
+__EDTB28 := __EDTB27 ;
+IF __EDTB28 THEN
+LIMIT_VALVULA_AGUA_1 := LIMIT(0, AGUA_PID_DINT_1, 100) ;
+END_IF ;
+__MO_LIMIT_1 := __EDTB28 ;
+__EDTB29 := __EDTB28 ;
+IF __EDTB29 THEN
+AGUA_VALVULA_1_PROCESS := ANY_TO_REAL(LIMIT_VALVULA_AGUA_1) ;
+END_IF ;
+__MO_ANY_TO_REAL_4 := __EDTB29 ;
+
+(*************** Code for the end of Rung **************)
+__GL __LG0010 ;
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,84
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB30 := _IO_EM_DO_00 ;
+IF __EDTB30 THEN
+_IO_P2_AO_00 := ANY_TO_UINT(LIMIT_VALVULA_AGUA_1) ;
+END_IF ;
+__MO_ANY_TO_UINT_1 := __EDTB30 ;
+
+(*************** Code for the end of Rung **************)
+__GL __LG0011 ;
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,87
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB31 := NOT(_IO_EM_DO_00) ;
+IF __EDTB31 THEN
+_IO_P2_AO_00 := ANY_TO_UINT(0.0) ;
+END_IF ;
+__MO_ANY_TO_UINT_2 := __EDTB31 ;
+
+(*************** Code for the end of Rung **************)
+__GL __LG0012 ;
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,90
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB32 := NOT(_IO_EM_DI_05) ;
+IF __EDTB32 THEN
+AGUA_2_SIM := Sensor_Sim(SENSOR_PLC, GAS_PROCESS, 0.016) ;
+END_IF ;
+__MO_SENSOR_SIM_3 := __EDTB32 ;
+
+(*************** Code for the end of Rung **************)
+__GL __LG0013 ;
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,95
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB33 := _IO_EM_DI_05 ;
+IF __EDTB33 THEN
+AGUA_2_SIM := Sensor_Sim(AGUA_2_SIM, AGUA_VALVULA_2_PROCESS, 0.016) ;
+END_IF ;
+__MO_SENSOR_SIM_4 := __EDTB33 ;
+
+(*************** Code for the end of Rung **************)
+__GL __LG0014 ;
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,100
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB34 := _IO_EM_DO_01 ;
+IF __EDTB34 THEN
+(* FB call: IPIDCONTROLLER *)
+IPIDCONTROLLER_3(AGUA_2_SIM, 10.0, AGUA_VALVULA_2_PROCESS, AUTO2, INI2, GAIN2, TUNE2, AT2, 0) ;
+AGUA_PID_2 := IPIDCONTROLLER_3.Output ;
+END_IF ;
+__MO_IPIDCONTROLLER_2 := __EDTB34 ;
+__EDTB35 := __EDTB34 ;
+IF __EDTB35 THEN
+AGUA_PID_DINT_2 := ANY_TO_DINT(AGUA_PID_2) ;
+END_IF ;
+__MO_ANY_TO_DINT_2 := __EDTB35 ;
+__EDTB36 := __EDTB35 ;
+IF __EDTB36 THEN
+LIMIT_VALVULA_AGUA_2 := LIMIT(0, AGUA_PID_DINT_2, 100) ;
+END_IF ;
+__MO_LIMIT_2 := __EDTB36 ;
+__EDTB37 := __EDTB36 ;
+IF __EDTB37 THEN
+AGUA_VALVULA_2_PROCESS := ANY_TO_REAL(LIMIT_VALVULA_AGUA_2) ;
+END_IF ;
+__MO_ANY_TO_REAL_5 := __EDTB37 ;
+
+(*************** Code for the end of Rung **************)
+__GL __LG0015 ;
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,111
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB38 := _IO_EM_DO_01 ;
+IF __EDTB38 THEN
+_IO_P2_AO_01 := ANY_TO_UINT(LIMIT_VALVULA_AGUA_2) ;
+END_IF ;
+__MO_ANY_TO_UINT_3 := __EDTB38 ;
+
+(*************** Code for the end of Rung **************)
+__GL __LG0016 ;
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,114
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB39 := NOT(_IO_EM_DO_01) ;
+IF __EDTB39 THEN
+_IO_P2_AO_01 := ANY_TO_UINT(0.0) ;
+END_IF ;
+__MO_ANY_TO_UINT_4 := __EDTB39 ;
+
+(*************** Code for the end of Rung **************)
+__GL __LG0017 ;
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,117
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB40 := NOT(_IO_EM_DI_06) ;
+IF __EDTB40 THEN
+GAS_SIM := Sensor_Sim(GAS_PLC, GAS_PROCESS, 0.0185) ;
+END_IF ;
+__MO_SENSOR_SIM_5 := __EDTB40 ;
+
+(*************** Code for the end of Rung **************)
+__GL __LG0018 ;
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,122
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB41 := _IO_EM_DI_06 ;
+IF __EDTB41 THEN
+GAS_SIM := Sensor_Sim(GAS_SIM, GAS_PROCESS, 0.0185) ;
+END_IF ;
+__MO_SENSOR_SIM_6 := __EDTB41 ;
+
+(*************** Code for the end of Rung **************)
+__GL __LG0019 ;
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,127
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB42 := TRUE ;
+IF __EDTB42 THEN
+(* FB call: IPIDCONTROLLER *)
+IPIDCONTROLLER_2(GAS_SIM, 120.0, GAS_PROCESS, AUTO3, INI3, GAIN2, TUNE3, AT3, 0) ;
+GAS_PID := IPIDCONTROLLER_2.Output ;
+END_IF ;
+__MO_IPIDCONTROLLER_3 := __EDTB42 ;
+__EDTB43 := __EDTB42 ;
+IF __EDTB43 THEN
+GAS_PID_DINT := ANY_TO_DINT(GAS_PID) ;
+END_IF ;
+__MO_ANY_TO_DINT_3 := __EDTB43 ;
+__EDTB44 := __EDTB43 ;
+IF __EDTB44 THEN
+LIMIT_GAS := LIMIT(0, GAS_PID_DINT, 100) ;
+END_IF ;
+__MO_LIMIT_3 := __EDTB44 ;
+__EDTB45 := __EDTB44 ;
+IF __EDTB45 THEN
+GAS_PROCESS := ANY_TO_REAL(LIMIT_GAS) ;
+END_IF ;
+__MO_ANY_TO_REAL_6 := __EDTB45 ;
+
+(*************** Code for the end of Rung **************)
+__GL __LG001A ;
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,138
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB46 := TRUE ;
+IF __EDTB46 THEN
+_IO_P3_AO_00 := ANY_TO_UINT(LIMIT_GAS) ;
+END_IF ;
+__MO_ANY_TO_UINT_5 := __EDTB46 ;
+
+(*************** Code for the end of Rung **************)
+__GL __LG001B ;
+
+
+(*************** Code for the end of File **************)
+__GL __LG0000 ;
+
+
+
+(*************** Local Symbols table *******************)
+(* __EDTB1 *)
+(* __EDTB2 *)
+(* __EDTB3 *)
+(* __EDTB4 *)
+(* __EDTB5 *)
+(* __EDTB6 *)
+(* __EDTB7 *)
+(* __EDTB8 *)
+(* __EDTB9 *)
+(* __EDTB10 *)
+(* __EDTB11 *)
+(* __EDTB12 *)
+(* __EDTB13 *)
+(* __EDTB14 *)
+(* __EDTB15 *)
+(* __EDTB16 *)
+(* __EDTB17 *)
+(* __EDTB18 *)
+(* __EDTB19 *)
+(* __EDTB20 *)
+(* __EDTB21 *)
+(* __EDTB22 *)
+(* __EDTB23 *)
+(* __EDTB24 *)
+(* __EDTB25 *)
+(* __EDTB26 *)
+(* __EDTB27 *)
+(* __EDTB28 *)
+(* __EDTB29 *)
+(* __EDTB30 *)
+(* __EDTB31 *)
+(* __EDTB32 *)
+(* __EDTB33 *)
+(* __EDTB34 *)
+(* __EDTB35 *)
+(* __EDTB36 *)
+(* __EDTB37 *)
+(* __EDTB38 *)
+(* __EDTB39 *)
+(* __EDTB40 *)
+(* __EDTB41 *)
+(* __EDTB42 *)
+(* __EDTB43 *)
+(* __EDTB44 *)
+(* __EDTB45 *)
+(* __EDTB46 *)
+
